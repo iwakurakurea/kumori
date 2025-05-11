@@ -1,0 +1,15 @@
+@theme "/home/clair/.config/rofi/catppuccin-default"
+
+configuration{
+    modi: "drun";
+    show-icons: true;
+    terminal: "st";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    sidebar-mode: true;
+}
+
+
+
+//@theme "/usr/share/rofi/themes/material.rasi"
