@@ -1,0 +1,18 @@
+#!/bin/bash
+
+target="${*}"
+
+case "$target" in
+	"")
+		nvim .
+		;;
+	*)
+		file=$(jq -r ."$target" /home/clair/.config/meow/db.json)
+		if [ -e "${file}" ] 
+		then 
+			nvim "${file}" 
+		else 
+			echo 'error' 
+		fi
+		;;
+esac

@@ -1,0 +1,12 @@
+{
+	"db": "/home/clair/.config/meow/db.json",
+	"awesome": "/home/clair/.config/awesome/rc.lua",
+	"wm": "/home/clair/.config/awesome/rc.lua",
+	"scripts": "/home/clair/.config/awesome/scripts",
+	"theme": "/home/clair/.config/awesome/themes/default/theme.lua",
+	"rss": "/home/clair/.newsboat/urls",
+	"urls": "/home/clair/.newsboat/urls",
+	"config": "/home/clair/.config",
+	"todo": "/home/clair/todo.txt",
+	"bashrc": "/home/clair/.bashrc"
+}

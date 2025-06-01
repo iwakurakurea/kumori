@@ -30,7 +30,12 @@ case "$action" in
 		notify-send "f-keys" "brightness now $(brightnessctl i | awk '/%/{print $NF}' | tr -d '()')"
 		;;
 	"screenshot")
-		shotgun -g $(slop) -f png "/home/clair/Pictures/Screenshot $(date '+%m-%d-%y-%T').png"
+		shotgun -g $(slop) -f png "/home/clair/Pictures/Screenshot_$(date '+%m-%d-%y-%T').png"
+		notify-send "f-keys" "screenshot taken [ ◉¯]"
+		;;
+	"screenshot_screen")
+		shotgun -s -f png "/home/clair/Pictures/Screenshot_wholescreen_$(date '+%m-%d-%y-%T').png"
+		notify-send "f-keys" "screenshot taken [ ◉¯]"
 		;;
 	*)
 		notify-send "error" "f-key action not recognized"

@@ -15,12 +15,12 @@
   spacing:                     2;
   alternate-normal-foreground: @foreground;
   urgent-background:           @background;
-  selected-normal-foreground:  @lightbg;
-  active-foreground:           @blue;
+  selected-normal-foreground:  @crust;
+  active-foreground:           @lavender;
   background:                  @base;
-  selected-active-background:  @blue;
+  selected-active-background:  @lavender;
   active-background:           @background;
-  selected-normal-background:  @lightfg;
+  selected-normal-background:  @lavender;
   alternate-normal-background: @lightbg;
   foreground:                  @text;
   selected-urgent-foreground:  @background;
@@ -87,6 +87,9 @@ window {
     padding:          5;
     background-color: @background;
     border:           1;
+	font:	"Aporetic Sans Mono 16";
+	location: north;
+	anchor: north;
 }
 mainbox {
     padding: 0;
@@ -102,11 +105,15 @@ textbox {
 }
 listview {
     padding:      2px 0px 0px ;
-    scrollbar:    true;
+    scrollbar:    false;
     border-color: @separatorcolor;
     spacing:      2px ;
     fixed-height: 0;
     border:       2px dash 0px 0px ;
+	columns: 3;
+	dynamic: true;
+	cycle: true;
+	lines: 3;
 }
 scrollbar {
     width:        4px ;
@@ -130,16 +137,16 @@ button selected {
 }
 num-filtered-rows {
     expand:     false;
-    text-color: Gray;
+    text-color: @text;
 }
 num-rows {
     expand:     false;
-    text-color: Gray;
+    text-color: @text;
 }
 textbox-num-sep {
     expand:     false;
-    str:        "/";
-    text-color: Gray;
+    str:        "|";
+    text-color: @text;
 }
 inputbar {
     padding:    1px ;
@@ -155,8 +162,8 @@ entry {
     text-color:        @normal-foreground;
     cursor:            text;
     spacing:           0;
-    placeholder-color: Gray;
-    placeholder:       "Type to filter";
+    placeholder-color: @overlay1;
+	placeholder: "What are ya lookin for? (◕‿◕✿)";
 }
 prompt {
     spacing:    0;

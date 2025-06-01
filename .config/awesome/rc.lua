@@ -18,7 +18,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local appmenu = require("appmenu")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
-require("awful.hotkeys_popup.keys")
+-- require("awful.hotkeys_popup.keys")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -66,8 +66,8 @@ modkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    -- awful.layout.suit.tile,
-    awful.layout.suit.tile.left,
+    awful.layout.suit.tile,
+    --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     --awful.layout.suit.tile.top,
     --awful.layout.suit.spiral.dwindle,
@@ -304,6 +304,10 @@ globalkeys = gears.table.join(
     ),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
+    awful.key({modkey, "Shift"}, "d", function() awful.spawn(confdir.."scripts/display_mode.sh") end,
+	{description = "change display mode", group = "awesome"}),
+    awful.key({}, "XF86Display", function() awful.spawn(confdir.."scripts/display_mode.sh") end,
+	{description = "change display mode", group = "f-keys"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -337,13 +341,13 @@ globalkeys = gears.table.join(
               {description = "increase master width factor", group = "layout"}),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
               {description = "decrease master width factor", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
+    awful.key({ modkey }, "i",     function () awful.tag.incnmaster( 1, nil, true) end,
               {description = "increase the number of master clients", group = "layout"}),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1, nil, true) end,
+    awful.key({ modkey }, "d",     function () awful.tag.incnmaster(-1, nil, true) end,
               {description = "decrease the number of master clients", group = "layout"}),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1, nil, true)    end,
+    awful.key({ modkey, "Shift" }, "h",     function () awful.tag.incncol( 1, nil, true)    end,
               {description = "increase the number of columns", group = "layout"}),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
+    awful.key({ modkey, "Shift" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
     awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
               {description = "select next", group = "layout"}),
@@ -376,6 +380,19 @@ globalkeys = gears.table.join(
 	{description = "raise brightness", group = "f-keys"}),
     awful.key({}, "Print", function() awful.spawn(confdir.."scripts/f_keys.sh screenshot") end,
 	{description = "take a screenshot from selection", group = "f-keys"}),
+    awful.key({ modkey }, "Print", function() awful.spawn(confdir.."scripts/f_keys.sh screenshot_screen") end,
+	{description = "take a screenshot of active screen", group = "f-keys"}),
+
+	-- Download or play video from url with (rofi as) dmenu
+	
+    awful.key({modkey}, "v", function() awful.spawn(confdir.."scripts/play_video.sh") end,
+	{description = "play video from url", group = "media"}),
+    awful.key({modkey, "Shift"}, "v", function() awful.spawn(confdir.."scripts/download_video.sh") end,
+	{description = "download video from url", group = "media"}),
+    awful.key({modkey, "Shift"}, "m", function() awful.spawn(confdir.."scripts/download_audio.sh") end,
+	{description = "download audio from url", group = "media"}),
+    awful.key({modkey}, "p", function() awful.spawn(confdir.."scripts/ranger_play.sh") end,
+	{description = "pick file to play with ranger", group = "media"}),
 
 	-- Prompt
     awful.key({ }, "Super_L", function () awful.spawn("rofi -show drun") end,
@@ -390,10 +407,7 @@ globalkeys = gears.table.join(
                     history_path = awful.util.get_cache_dir() .. "/history_eval"
                   }
               end,
-              {description = "lua execute prompt", group = "awesome"}),
-    -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+              {description = "lua execute prompt", group = "awesome"})
 )
 
 clientkeys = gears.table.join(
@@ -521,7 +535,8 @@ awful.rules.rules = {
                      buttons = clientbuttons,
                      screen = awful.screen.preferred,
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
-     }
+     },
+	 callback = awful.client.setslave
     },
 
     -- Floating clients.
@@ -541,12 +556,15 @@ awful.rules.rules = {
           "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
           "Wpa_gui",
           "veromix",
-          "xtightvncviewer"},
+          "xtightvncviewer",
+	  	  "mpv",
+	  	},
 
         -- Note that the name property shown in xprop might be set slightly after creation of the client
         -- and the name shown there might not match defined rules here.
         name = {
           "Event Tester",  -- xev.
+		  -- "mpv",
         },
         role = {
           "AlarmWindow",  -- Thunderbird's calendar.
@@ -555,9 +573,9 @@ awful.rules.rules = {
         }
       }, properties = { floating = true }},
 
-    -- Add titlebars to normal clients and dialogs
+    -- Do not add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+      }, properties = { titlebars_enabled = false }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.

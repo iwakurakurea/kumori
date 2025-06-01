@@ -9,17 +9,23 @@ local dpi = xresources.apply_dpi
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
+local global_font = "Aporetic Sans Mono"
+
 local theme = {}
 
-theme.font          = "Aporetic Sans Mono 12"
+theme.font          = global_font.." 12"
+
+theme.hotkeys_font  = global_font.." 16"
+theme.hotkeys_description_font = global_font.." 12"
 
 theme.menu_fg_normal     = "#cdd6f4"
 theme.menu_fg_focus      = "#11111b"
 theme.menu_bg_normal     = "#1e1e2e"
 theme.menu_bg_focus      = "#b4befe"
-theme.menu_font          = "Aporetic Sans Mono 16"
-theme.menu_height        = 20
-theme.menu_width         = 300
+theme.menu_font          = global_font.." 16"
+
+theme.notification_icon_size = 128
+theme.notification_font = global_font.." 20"
 
 theme.bg_normal     = "#1e1e2e"
 theme.bg_focus      = "#b4befe"
@@ -29,7 +35,7 @@ theme.bg_systray    = theme.bg_normal
 
 theme.fg_normal     = "#cdd6f4"
 theme.fg_focus      = "#11111b"
-theme.fg_urgent     = "#f9e2af"
+theme.fg_urgent     = "#11111b"
 theme.fg_minimize   = "#a6adc8"
 
 theme.useless_gap   = dpi(0)
@@ -83,8 +89,8 @@ theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_submenu_icon = themes_path.."default/submenu.png"
-theme.menu_height = dpi(15)
-theme.menu_width  = dpi(100)
+theme.menu_height = dpi(25)
+theme.menu_width  = dpi(200)
 
 -- You can add as many variables as
 -- you wish and access them by using

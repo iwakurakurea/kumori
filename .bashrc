@@ -7,7 +7,7 @@
 
 cat /home/clair/todo.txt
 
-cowsay -f sus $(newsboat -x print-unread)
+# cowsay -f sus meow
 
 export MANPAGER='nvim +Man!'
 
