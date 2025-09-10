@@ -1,0 +1,18 @@
+include catppuccin-mocha
+
+# set <option> <new value>
+# int, float, string, bool
+# string can be "h i" or h\ i
+
+set font aporetic-sans-normalregularupright\ normal\ 16
+
+set guioptions ""
+
+# set recolor true
+
+# map [mode] <binding> <shortcut function> <argument>
+# if specifying mode brackets are mandatory
+# modifiers - Alt Control Shift
+# map <A-a> = Alt+a
+
+map c recolor

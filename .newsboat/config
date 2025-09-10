@@ -4,7 +4,7 @@ max-items 2000
 
 auto-reload yes
 
-browser "xdg-open %u"
+browser "chawan -M -- %u"
 
 macro v set browser "mpv %u --fs"
-macro t set browser "xdg-open %u"
+macro t set browser "chawan -M -- %u"

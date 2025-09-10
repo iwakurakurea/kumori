@@ -50,7 +50,7 @@ end
 -- Alias for config directory cause i aint typin allat
 confdir = gears.filesystem.get_configuration_dir()
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(confdir.."themes/default/theme.lua")
+beautiful.init(confdir.."themes/akigakki/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "st"
@@ -70,7 +70,7 @@ awful.layout.layouts = {
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     --awful.layout.suit.tile.top,
-    --awful.layout.suit.spiral.dwindle,
+    awful.layout.suit.spiral.dwindle,
     awful.layout.suit.fair,
     awful.layout.suit.floating,
     -- awful.layout.suit.fair.horizontal,
@@ -102,12 +102,43 @@ mymainmenu = awful.menu({ items = {
 	{ "apps", appmenu.Appmenu}
 }})
 
-praisewidget = wibox.widget.textbox()
-praisewidget.text = "良い夏休みを"
+cjk_font = "Honoka Mincho"
 
+praisewidget = wibox.widget.textbox()
+praisewidget.text = "集中しようぜ"
+praisewidget.font = cjk_font.." 14"
+
+spacerwidget = wibox.widget.separator()
+spacerwidget.orientation = "vertical"
+spacerwidget.forced_width = 16
+spacerwidget.opacity = 0
+
+batterykanji = wibox.widget.textbox()
+batterykanji.text = "電池"
+batterykanji.font = cjk_font.." 14"
+batteryindicatorkanji = wibox.widget.textbox()
+batteryindicatorkanji.font = cjk_font.." 14"
 batterydisplay = wibox.widget.textbox()
+
+volumekanji = wibox.widget.textbox()
+volumekanji.text = "音"
+volumekanji.font = cjk_font.." 14"
 volumedisplay = wibox.widget.textbox()
+
+brightnesskanji = wibox.widget.textbox()
+brightnesskanji.text = "光"
+brightnesskanji.font = cjk_font.." 14"
 brightnessdisplay = wibox.widget.textbox()
+
+smallspacerwidget = wibox.widget.separator()
+smallspacerwidget.orientation = "vertical"
+smallspacerwidget.forced_width = 4
+smallspacerwidget.opacity = 0
+
+-- Create a textclock widget
+-- Dayofweek, Month DD, YYYY // HH:MM (24-hr time)
+local date_and_time = wibox.widget.textbox()
+date_and_time.font = cjk_font.." 14"
 
 gears.timer {
 	timeout = 10,
@@ -117,19 +148,31 @@ gears.timer {
 		awful.spawn.easy_async(
 			{"bash", "-c", "upower -i /org/freedesktop/UPower/devices/battery_BAT0 | awk '/percentage/{print $NF}'"},
 			function(out)
-				batterydisplay.text="電気"..out
+				batterydisplay.text=out
 			end
 		)
 		awful.spawn.easy_async(
 			{"bash", "-c", "pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}'"},
 			function(out)
-				volumedisplay.text="音"..out
+				volumedisplay.text=out
 			end
 		)
 		awful.spawn.easy_async(
 			{"bash", "-c", "brightnessctl i | awk '/%/{print $NF}' | tr -d '()'"},
 			function(out)
-				brightnessdisplay.text="光"..out
+				brightnessdisplay.text=out
+			end
+		)
+		awful.spawn.easy_async(
+			{"bash", "-c", "/home/clair/.config/awesome/scripts/battery_kanji.sh"},
+			function(out)
+				batteryindicatorkanji.text=out
+			end
+		)
+		awful.spawn.easy_async(
+			{"bash", "-c", "date +%c | head --bytes=-6"},
+			function(out)
+				date_and_time.text = out
 			end
 		)
 	end
@@ -153,9 +196,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
--- Create a textclock widget
--- Dayofweek, Month DD, YYYY // HH:MM (24-hr time)
-mytextclock = wibox.widget.textclock('%A, %B %d, %Y // %R')
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -244,28 +284,42 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
+			spacerwidget,
             praisewidget,
+			spacerwidget,
             s.mytaglist,
+			spacerwidget,
             s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             -- mykeyboardlayout,
+			spacerwidget,
             wibox.widget.systray(),
-            mytextclock,
-			wibox.widget.separator({orientation="vertical",forced_width=8}),
+			spacerwidget,
+			date_and_time,
+			spacerwidget,
+			-- wibox.widget.separator({orientation="vertical",forced_width=8}),
+			volumekanji,
 			volumedisplay,
+			smallspacerwidget,
+			brightnesskanji,
 			brightnessdisplay,
+			smallspacerwidget,
+			batterykanji,
+			batteryindicatorkanji,
 			batterydisplay,
+			spacerwidget,
             s.mylayoutbox,
+			spacerwidget
         },
     }
 end)
@@ -378,6 +432,10 @@ globalkeys = gears.table.join(
 	{description = "lower brightness", group = "f-keys"}),
     awful.key({}, "XF86MonBrightnessUp", function() awful.spawn(confdir.."scripts/f_keys.sh brightness_up") end,
 	{description = "raise brightness", group = "f-keys"}),
+    awful.key({ modkey }, "XF86MonBrightnessDown", function() awful.spawn("brightnessctl set 1") end,
+	{description = "set the screen to minimum brightness", group = "f-keys"}),
+    awful.key({ modkey }, "XF86MonBrightnessUp", function() awful.spawn("brightnessctl set 100%") end,
+	{description = "set the screen to maximum brightness", group = "f-keys"}),
     awful.key({}, "Print", function() awful.spawn(confdir.."scripts/f_keys.sh screenshot") end,
 	{description = "take a screenshot from selection", group = "f-keys"}),
     awful.key({ modkey }, "Print", function() awful.spawn(confdir.."scripts/f_keys.sh screenshot_screen") end,
@@ -393,10 +451,16 @@ globalkeys = gears.table.join(
 	{description = "download audio from url", group = "media"}),
     awful.key({modkey}, "p", function() awful.spawn(confdir.."scripts/ranger_play.sh") end,
 	{description = "pick file to play with ranger", group = "media"}),
+    awful.key({modkey}, "z", function() awful.spawn(confdir.."scripts/ranger_manga.sh") end,
+	{description = "use ranger to pick manga to open in zathura", group = "media"}),
+
+	-- Utilities I wanted on a hotkey
+    awful.key({modkey}, "c", function() awful.spawn(confdir.."scripts/pick_color.sh") end,
+	{description = "pick color from screen", group = "util"}),
 
 	-- Prompt
     awful.key({ }, "Super_L", function () awful.spawn("rofi -show drun") end,
-              {description = "run prompt", group = "launcher"}),
+              {description = "open app launcher", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -417,7 +481,7 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey,   }, "q",      function (c) c:kill()                         end,
+    awful.key({ modkey, "Shift"  }, "q",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
@@ -647,6 +711,8 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Autostarts :3
-awful.spawn.once("redshift")
+-- awful.spawn.once("redshift")
 awful.spawn.once("picom -b")
 awful.spawn.once("fcitx5")
+awful.spawn.once("nm-applet")
+awful.spawn.once("bash -c /home/clair/.fehbg")

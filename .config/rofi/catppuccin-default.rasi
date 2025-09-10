@@ -87,7 +87,7 @@ window {
     padding:          5;
     background-color: @background;
     border:           1;
-	font:	"Aporetic Sans Mono 16";
+	font:	"Honoka Mincho 14";
 	location: north;
 	anchor: north;
 }
