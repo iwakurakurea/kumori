@@ -3,7 +3,7 @@
 configuration{
     modi: "drun,run,window";
     show-icons: true;
-    terminal: "st";
+    terminal: "alacritty";
     drun-display-format: "{icon} {name}";
     location: 0;
     disable-history: false;

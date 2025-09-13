@@ -7,14 +7,15 @@
 
 cat /home/clair/todo.txt
 
-# cowsay -f sus meow
-
-ezacmd='eza --icons=always --hyperlink --no-quotes --smart-group'
-
 export MANPAGER='nvim +Man!'
 export PATH="$PATH:/home/clair/go/bin:/home/clair/.cargo/bin"
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
 
+# Aliases
 alias cls='clear'
+ezacmd='eza --icons=always --hyperlink --no-quotes --smart-group'
 alias ls='${ezacmd}'
 alias ll='${ezacmd} -l'
 alias la='${ezacmd} -al'

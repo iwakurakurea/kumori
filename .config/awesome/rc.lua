@@ -53,7 +53,7 @@ confdir = gears.filesystem.get_configuration_dir()
 beautiful.init(confdir.."themes/akigakki/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "st"
+terminal = "alacritty"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
