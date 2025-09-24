@@ -1,18 +1,30 @@
 #!/bin/bash
 
+# .json file that contains { "name": "/absolute/path/to/config/file" }
+db_file="/home/clair/.config/meow/db.json"
+
+
 target="${*}"
+
+open_if_exists () {
+	file=$(jq -r ."$1" "${db_file}")
+	if [ -e "${file}" ] 
+	then 
+		nvim "${file}" 
+	else 
+		echo "file $target does not exist"
+	fi
+}
 
 case "$target" in
 	"")
-		nvim .
+		select ITEM in $(jq -r 'keys' "${db_file}" | jq -r .[] | tr '\n' ' ')
+		do
+			open_if_exists "${ITEM}"
+			break
+		done
 		;;
 	*)
-		file=$(jq -r ."$target" /home/clair/.config/meow/db.json)
-		if [ -e "${file}" ] 
-		then 
-			nvim "${file}" 
-		else 
-			echo 'error' 
-		fi
+		open_if_exists "${target}"
 		;;
 esac

@@ -5,7 +5,13 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-cat /home/clair/todo.txt
+motd () {
+	cat /home/clair/todo.txt
+}
+
+if [ "${PWD}" = "/home/clair" ]; then
+	motd
+fi
 
 export MANPAGER='nvim +Man!'
 export PATH="$PATH:/home/clair/go/bin:/home/clair/.cargo/bin"
