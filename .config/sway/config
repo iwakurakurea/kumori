@@ -4,7 +4,7 @@
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
-set $mod Mod1
+set $mod Mod4
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -39,23 +39,23 @@ include catppuccin-mocha
 
 # Autoexecs
 exec fcitx5
+exec dunst
 exec swaybg -i /home/clair/Pictures/wallpapers/catsnow.jpg -m fill
 
 ### Input configuration
 #
 # Example configuration:
 #
-   input type:touchpad {
-       dwt enabled
-       tap enabled
-       tap_button_map lrm
-       natural_scroll enabled
-       middle_emulation disabled
-   }
-#	TODO: japanese input? (fcitx5)
-#   input type:keyboard {
-#       xkb_layout "eu"
-#   }
+input type:touchpad {
+	dwt enabled
+	tap enabled
+	tap_button_map lrm
+	natural_scroll enabled
+	middle_emulation disabled
+}
+input type:keyboard {
+	xkb_options "caps:escape"
+}
 #
 # You can also configure each device individually.
 # Read `man 5 sway-input` for more information about this section.
@@ -84,7 +84,8 @@ exec swaybg -i /home/clair/Pictures/wallpapers/catsnow.jpg -m fill
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    # bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Shift+e exec swaymsg exit
 #
 # Moving around:
 #
@@ -207,7 +208,9 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
     # Special keys to adjust brightness via brightnessctl
     bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked $mod+XF86MonBrightnessDown exec brightnessctl set 1
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+    bindsym --locked $mod+XF86MonBrightnessUp exec brightnessctl set 100%
     # Special key to take a screenshot with grim
     bindsym Print exec grim
 

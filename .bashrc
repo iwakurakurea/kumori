@@ -9,6 +9,10 @@ motd () {
 	cat /home/clair/todo.txt
 }
 
+power () {
+	upower -i /org/freedesktop/UPower/devices/battery_BAT0 | awk '/percentage/{print $NF}'
+}
+
 if [ "${PWD}" = "/home/clair" ]; then
 	motd
 fi

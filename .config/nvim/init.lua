@@ -28,6 +28,7 @@ vim.cmd(':hi statusline guibg=NONE') -- this is highlight groups apparently
 
 -- Bindings
 vim.keymap.set('n', '<leader>w', ':w<CR>')
+vim.keymap.set('i', '<leader>w', '<C-o>:w<CR>')
 vim.keymap.set('n', '<leader>cd', ':cd %:p:h<CR>') -- :p path :h head
 -- Terminal
 vim.keymap.set('n', '<leader>t', ':belowright vertical terminal<CR>A')

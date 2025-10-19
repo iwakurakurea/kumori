@@ -97,7 +97,7 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { 
-    { "st", terminal },
+    { "alacritty", terminal },
 	{ "awesome", myawesomemenu, beautiful.awesome_icon },
 	{ "apps", appmenu.Appmenu}
 }})
@@ -170,7 +170,7 @@ gears.timer {
 			end
 		)
 		awful.spawn.easy_async(
-			{"bash", "-c", "date +%c | head --bytes=-6"},
+			{"bash", "-c", "date '+%x %A %X' | head --bytes=-6"},
 			function(out)
 				date_and_time.text = out
 			end
@@ -451,6 +451,17 @@ globalkeys = gears.table.join(
     awful.key({modkey}, "z", function() awful.spawn(confdir.."scripts/ranger_manga.sh") end,
 	{description = "use ranger to pick manga to open in zathura", group = "media"}),
 
+	-- Control DeaDBeeF with fkeys
+    awful.key({modkey}, "F1", function() awful.spawn(confdir.."scripts/deadbeef.sh play_pause") end,
+	{description = "play/pause", group = "deadbeef"}),
+    awful.key({modkey}, "F2", function() awful.spawn(confdir.."scripts/deadbeef.sh volume_down") end,
+	{description = "volume down", group = "deadbeef"}),
+    awful.key({modkey}, "F3", function() awful.spawn(confdir.."scripts/deadbeef.sh volume_up") end,
+	{description = "volume up", group = "deadbeef"}),
+    awful.key({modkey}, "F4", function() awful.spawn(confdir.."scripts/deadbeef.sh now_playing") end,
+	{description = "display currently playing song", group = "deadbeef"}),
+
+
 	-- Utilities I wanted on a hotkey
     awful.key({modkey}, "c", function() awful.spawn(confdir.."scripts/pick_color.sh") end,
 	{description = "pick color from screen", group = "util"}),
@@ -713,3 +724,6 @@ awful.spawn.once("picom -b")
 awful.spawn.once("fcitx5")
 awful.spawn.once("nm-applet")
 awful.spawn.once("bash -c /home/clair/.fehbg")
+awful.spawn("anki");
+-- awful.spawn(terminal); -- for todo
+
