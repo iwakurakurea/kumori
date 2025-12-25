@@ -2,6 +2,7 @@
 
 configuration{
     modi: "drun,run,window";
+    modes: "drun,run,window";
     show-icons: true;
     terminal: "alacritty";
     drun-display-format: "{icon} {name}";

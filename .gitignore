@@ -2,3 +2,4 @@
 /.config/awesome/themes
 .config/awesome/appmenu.lua
 /.config/meow
+/.config/sway/status_line

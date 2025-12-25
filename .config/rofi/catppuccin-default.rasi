@@ -87,9 +87,9 @@ window {
     padding:          5;
     background-color: @background;
     border:           1;
-	font:	"Honoka Mincho 14";
-	location: north;
-	anchor: north;
+	font:	"Xiaolai SC 16";
+	location: center;
+	anchor: center;
 }
 mainbox {
     padding: 0;

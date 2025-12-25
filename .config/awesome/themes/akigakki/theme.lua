@@ -23,7 +23,7 @@ local gfs = require("gears.filesystem")
 local themes_path = gfs.get_themes_dir()
 
 -- Avoid specifying size here so we can later
-local global_font = "Honoka Mincho"
+local global_font = "Xiaolai SC" -- Honoka Mincho
 
 -- Rounded on the right side
 local task_shape = function(cr, width, height)

@@ -29,7 +29,7 @@ set $crust #11111b
 
 # -----------------
 
-font pango:Honoka Mincho 14
+font pango:Xiaolai SC 14
 
 # target                 title     bg    text   indicator  border
 client.focused           $lavender $base $text  $rosewater $lavender
@@ -42,7 +42,7 @@ client.background        $base
 # bar
 bar {
   position top
-  font Honoka Mincho 14
+  font Xiaolai SC 14
 
   # When the status_command prints a new line to stdout, swaybar updates.
   # The default just shows the current date and time.

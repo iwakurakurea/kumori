@@ -102,7 +102,7 @@ mymainmenu = awful.menu({ items = {
 	{ "apps", appmenu.Appmenu}
 }})
 
-cjk_font = "Honoka Mincho"
+cjk_font = "Xiaolai SC"
 
 praisewidget = wibox.widget.textbox()
 praisewidget.text = "集中しようぜ"
